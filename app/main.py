@@ -24,7 +24,6 @@ def startup_event():
         run_speedtest,
         "interval",
         minutes=60,
-        args=[SUPABASE_URL, SUPABASE_KEY]
     )
     scheduler.start()
 
