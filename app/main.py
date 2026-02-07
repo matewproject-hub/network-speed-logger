@@ -17,7 +17,7 @@ def startup_event():
         raise RuntimeError("Supabase secrets not found!")
 
     # First speedtest run
-    run_speedtest(supabase_url=SUPABASE_URL, supabase_key=SUPABASE_KEY)
+    run_speedtest()
     
     # Schedule subsequent runs every 60 minutes
     scheduler.add_job(
