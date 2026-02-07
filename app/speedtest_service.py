@@ -19,10 +19,8 @@ def run_speedtest():
 
     supabase.table("speedlogs").insert(data).execute()
 
-    # cleanup older than 7 days
     cutoff = (datetime.utcnow() - timedelta(days=7)).isoformat()
 
     supabase.table("speedlogs").delete().lt("timestamp", cutoff).execute()
 
     print("✅ Speedtest logged")
-

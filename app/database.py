@@ -1,16 +1,10 @@
-from supabase import create_client
-from dotenv import load_dotenv
 import os
-from pathlib import Path
+from supabase import create_client
 
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
-# Load .env
-env_path = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise RuntimeError("Supabase env vars not set")
 
-
-# Supabase setup
-SUPABASE_URL = os.getenv("SUPABASE_URL")       # Add this to .env
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")       # Add this to .env
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
