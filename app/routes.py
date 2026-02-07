@@ -1,16 +1,21 @@
 from fastapi import APIRouter
-from app.database import SessionLocal
-from app.models import SpeedLog
+from app.database import supabase
+from datetime import datetime
 
 router = APIRouter()
 
-@router.get("/")
-def root():
-    return {"status": "Network Speed Logger running"}
-
 @router.get("/logs")
 def get_logs():
-    db = SessionLocal()
-    logs = db.query(SpeedLog).order_by(SpeedLog.created_at.desc()).all()
-    db.close()
-    return logs
+    return (
+        supabase
+        .table("speedlogs")
+        .select("*")
+        .order("timestamp", desc=True)
+        .execute()
+        .data
+    )
+
+
+
+    res = supabase.table("speedlogs").insert(data).execute()
+    return res.data

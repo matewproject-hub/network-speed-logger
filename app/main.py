@@ -1,23 +1,29 @@
 from fastapi import FastAPI
-from apscheduler.schedulers.background import BackgroundScheduler
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.routes import router
-from app.database import engine
-from app.models import Base
+from apscheduler.schedulers.background import BackgroundScheduler
 from app.speedtest_service import run_speedtest
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow your frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 app.include_router(router)
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+run_speedtest()
 
-# Scheduler
 scheduler = BackgroundScheduler()
 scheduler.add_job(run_speedtest, "interval", hours=1)
 scheduler.start()
 
+
 @app.get("/")
-def home():
-    return {"message": "Speed Logger API running"}
+def root():
+    return {"status": "Network Speed Logger API running"}
