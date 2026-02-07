@@ -24,7 +24,7 @@ app.include_router(router)
 scheduler = BackgroundScheduler()
 
 # Fetch SUPABASE_URL at runtime
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
 if not SUPABASE_URL:
     raise RuntimeError("SUPABASE_URL not set in environment variables!")
 
